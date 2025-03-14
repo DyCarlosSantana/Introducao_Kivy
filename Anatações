@@ -1,0 +1,155 @@
+_O Kivy é um framework open-source em Python projetado para criar aplicativos modernos e interativos que funcionam em diversas plataformas (Windows, macOS, Linux, Android, iOS). Ele é especialmente poderoso para interfaces com toque (touch) e é ideal para quem quer desenvolver aplicativos móveis, desktop ou até mesmo jogos 2D sem precisar aprender linguagens específicas de cada plataforma (como Java para Android ou Swift para iOS).
+
+Como o Kivy Funciona?
+Linguagem KV:
+_Separa o design da interface (frontend) da lógica do programa (backend), usando uma sintaxe simples.
+Exemplo de arquivo .kv:
+<MeuApp>:  
+    Button:  
+        text: 'Clique aqui!'  
+        on_press: root.minha_funcao()  
+
+Desvantagens:
+_Curva de Aprendizado: A linguagem KV e o sistema de widgets podem ser complexos no início.
+_Apps Não Nativos: A interface pode não parecer 100% nativa em cada plataforma.
+_Tamanho do App: Apps para Android/iOS podem ficar grandes devido às dependências.
+
+_________________________________________________________________________________________
+
+Como Criar Aplicativos e Programas com Python
+Você já imaginou criar aplicativos com Python? Ou até mesmo criar programas com Python? Nessa aula eu vou te ensinar a fazer utilizando o Kivy no Python.
+
+Essa aula vai ser uma introdução ao Kivy para que você consiga criar um sistema inicial e depois com os conhecimentos poderá ir aprimorando de acordo com sua necessidade.
+
+Introdução ao Kivy
+Hoje eu vou te mostrar uma breve introdução ao Kivy que é um framework de Python que vai auxiliar na criação de programas no Python e na criação de aplicativos no Python.
+
+O primeiro passo para começar é fazer a instalação do Kivy, o que é bem simples, basta escrever pip install kivy no terminal caso esteja utilizando o PyCharm.
+
+OBS: Você pode utilizar outros editores de Python sem problema, o código vai funcionar da mesma maneira!
+
+Você vai notar que essa instalação demora um pouco, então pode ficar tranquilo que não é nenhum bug.
+
+Todo projeto do Kivy nós vamos separar a construção dele em duas partes, o nosso código em Python (que seria o back end) e o nosso código do Kivy (que seria o front end).
+
+O back end seria toda a lógica de programação por trás do seu aplicativo enquanto o front end é a parte visual do aplicativo.
+
+Então você vai assimilar essas duas partes com o que já deve ter visto na internet em vagas de emprego procurando por programador de front end ou back end!
+
+Dentro da pasta do nosso projeto nós vamos criar 2 arquivos. O primeiro arquivo será o main.py que é onde vamos fazer o código em Python e o tela.kv que é o arquivo na extensão kivy para fazer a parte visual.
+
+Criação dos arquivos
+Criação dos arquivos
+Feito isso e tendo a instalação do kivy completa já podemos partir para o código e para as explicações.
+
+# importar o App, Builder (GUI)
+# # criar o nosso aplicativo
+# # criar a função build
+
+from kivy.app import App
+from kivy.lang import Builder
+import requests
+
+GUI = Builder.load_file("tela.kv")
+
+
+class MeuAplicativo(App):
+    def build(self):
+        return GUI
+
+    def on_start(self):
+        self.root.ids["moeda1"].text = f"Dólar R${self.pegar_cotacao('USD')}"
+        self.root.ids["moeda2"].text = f"Euro R${self.pegar_cotacao('EUR')}"
+        self.root.ids["moeda3"].text = f"Bitcoin R${self.pegar_cotacao('BTC')}"
+        self.root.ids["moeda4"].text = f"Ethereum R${self.pegar_cotacao('ETH')}"
+
+    def pegar_cotacao(self, moeda):
+        link = f"https://economia.awesomeapi.com.br/last/{moeda}-BRL"
+        requisicao = requests.get(link)
+        dic_requisicao = requisicao.json()
+        cotacao = dic_requisicao[f"{moeda}BRL"]["bid"]
+        return cotacao
+
+
+MeuAplicativo().run()
+Esse é o nosso código completo do aplicativo que vamos criar e agora eu vou explicar o que foi feito para que você entenda e consiga replicar para fazer o seu aplicativo.
+
+As três primeiras linhas são comentários, mas são informações que nós vamos precisar sempre que formos criar um aplicativo (procedimento padrão), que é importar o app, esse builder que vai permitir fazer a conexão da tela com o código em Python.
+
+Em seguida temos que criar o nosso aplicativo e por fim a nossa função build.
+
+Depois dessas informações já podemos iniciar a explicação do código. Logo de início temos a importação das bibliotecas que serão utilizadas.
+
+Logo abaixo temos a criação do nosso GUI, e nele vamos indicar qual o arquivo o builder precisa ler.
+
+Feito isso nós vamos ter que criar o nosso aplicativo com a função build, lembrando que todo aplicativo do kivy é criado dentro de uma classe (class).
+
+Então vamos criar essa classe e dentro dela vamos definir a função que se chama build e dentro dela vamos retornar o GUI.
+
+Então todo início de código você vai precisar dessa parte até a criação dessa função dentro da classe.
+
+Antes de partir para a próxima parte do código nós vamos escrever dentro do arquivo tela.kv para informar quais as informações vão aparecer na nossa tela.
+
+GridLayout:
+
+    cols: 1
+
+    Label:
+
+        id: moeda1
+
+        text: "1º texto"
+
+    Label:
+
+        id: moeda2
+
+        text: "2º texto"
+
+    Label:
+
+        id: moeda3
+
+        text: "3º texto"
+
+    Label:
+
+        id: moeda4
+
+        text: "3º texto"
+Vamos utilizar o GridLayout que vai ser responsável por criar uma grade que vai redimensionar automaticamente o tamanho da janela com os itens que você tem.
+
+Para poder dividir essas informações nós vamos precisar dizer quantas colunas essa grade vai ter, por isso vamos utilizar o cols: 1, para indicar que vamos ter apenas 1 única coluna.
+
+Então nesse caso nós vamos ter uma única coluna e 4 textos, que são os nossos labels. Com isso vamos ter um id que seria um “título” e logo abaixo temos o texto para cada um desses títulos.
+
+Então nesse caso nós vamos ter 4 informações aparecendo na nossa tela uma embaixo da outra.
+
+A vantagem é que a medida em que você altera o tamanho da sua tela ela vai sendo ajustada automaticamente, assim não vai ficar com informações somente em um canto da tela.
+
+Agora voltando para o código, nós vamos utilizar uma API de cotação de moedas, então você pode utilizar essa, caso queira iniciar o seu aplicativo, mas tem uma lista de APIs disponíveis para download.
+
+Dessa forma você vai poder utilizar qualquer uma delas para atender sua necessidade ou até mesmo para testar novas possibilidades.
+
+Isso quer dizer que a outra parte do nosso código vai ser utilizando essa API de cotação de moedas e trazendo essa informação para o Python.
+
+Você vai notar que dentro do nosso arquivo tela.kv nós temos o id escrito apenas moeda1, moeda2…
+
+Só que dentro do nosso código em Python nós estamos identificando cada um desses IDs para que possamos editar cada um dos labels que temos.
+
+OBS: Vale ressaltar que as funções que serão utilizadas dentro do seu aplicativo precisam estar dentro da sua classe onde o programa foi criado.
+
+Aplicativo em funcionamento
+Aplicativo em funcionamento
+Esse é o resultado após rodar o aplicativo, então vamos ter a cotação de cada uma das moedas em uma única coluna que vai se ajustar de acordo com o tamanho da tela.
+
+Então o nosso código está pronto só falta eu te falar para que serve a última linha do nosso código que é: MeuAplicativo().run().
+
+Esse código é para que o seu aplicativo fique rodando como se estivesse em um loop infinito, caso contrário ele não vai ficar aberto.
+
+Conclusão da Criação de Aplicativos e Programas com Python
+Nessa aula eu te mostrei uma breve introdução ao Kivy para que você possa criar seu primeiro aplicativo.
+
+Deixei também disponível para download um arquivo com diversas APIs que você pode utilizar para criar seus aplicativos.
+
+Então mesmo que esteja sem ideias já pode ir utilizando algum deles para complementar o que está criando.
